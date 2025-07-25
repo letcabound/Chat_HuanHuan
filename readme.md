@@ -1,12 +1,12 @@
-# Extract Dialogue
+# Chat_HuanHuan
 
->***本仓库只为`huanhuan-chat`泛化版的一部分内容（文本对话抽取），欢迎大家给`huanhuan-chat`仓库star！本仓库的最大贡献就是为泛化的Character AI提供了从小说中建立数据集的功能。***
+>***本仓库为`Chat_HuanHuan`！本仓库的贡献是在参考项目的基础上，优化 `针对甄嬛传小说的提示词`, `由指定deepseek修改为兼容任一符合Openai接口规范的大模型`，`对提取到的小说对白数据etl处理`，`添加微调部分的代码`等。***
 >
->`huanhuan-chat: https://github.com/KMnO4-zx/huanhuan-chat.git`
+>感谢大佬开源的**文本对话抽取**项目，地址：`huanhuan-chat: https://github.com/KMnO4-zx/extract-dialogue.git`
 
 ## Show
 
-`repo`：https://github.com/KMnO4-zx/extract-dialogue.git
+`repo`：https://github.com/letcabound/Chat_HuanHuan.git
 
 本项目利用`chatgpt`从小说中提取对话集，提取的样本中包括`role`，`dialogue`，比如以下的形式：
 
@@ -23,12 +23,12 @@
 
 ## QuickStart
 
-- 克隆仓库并切换目录：`git clone https://github.com/KMnO4-zx/extract-dialogue.git `，`cd extract-dialogue`
+- 克隆仓库并切换目录：`git clone https://github.com/letcabound/Chat_HuanHuan.git`，`cd Chat_HuanHuan`
 
 - 安装依赖：`pip install -r requirements.txt`
-- 在当前目录创建`.env`文件，并填入`DEEPSEEK_API`。
+    - 在当前目录创建`.env`文件，并填入`MODEL_NAME`,`MODEL_API`,`MODEL_BASE_URL`。
 - 把你要提取的小说或文本，放到当前目录，在`example.py`中修改`path`。
-- ***强烈建议您结合要提取的小说修改`schema.py`中的`schema`示例。在下面的部分中有详细介绍`schema`。***
+- ***强烈建议您结合要提取的小说修改extract.py中的提示词。***
 
 - 运行`example.py`，`python example.py`
 
@@ -48,40 +48,10 @@
 {"role": "塔利姆", "dialogue": "不，这不是《罗密欧与朱丽叶》的故事！"}
 ```
 
-
-## Introduction
-
-```python
-from extract import system_prompt
-from schema import novel_schema
-from LLM import DeepseekChat
-from utils import ReadFiles
-from tqdm import tqdm
-import json
-
-file_path = './data/test.txt'
-docs = ReadFiles(file_path).get_content(max_token_len=500, cover_content=0)
-
-sys_prompt = system_prompt(novel_schema)
-
-model = DeepseekChat()
-
-file_name = file_path.split('/')[-1].split('.')[0]
-
-for i in tqdm(range(len(docs))):
-    response = model.chat(sys_prompt, docs[i])
-    try:
-        response = json.loads(response)
-        for item in response:
-            with open(f'{file_name}.jsonl', 'a', encoding='utf-8') as f:
-                json.dump(item, f, ensure_ascii=False)
-                f.write('\n')
-    except Exception as e:
-        print(e)
-```
-
 ## 参考
 
 【1】https://eyurtsev.github.io/kor/index.html#
 
 【2】https://zhuanlan.zhihu.com/p/646948797
+
+【3】https://github.com/KMnO4-zx/extract-dialogue.git
