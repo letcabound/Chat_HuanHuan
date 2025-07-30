@@ -31,7 +31,8 @@
     - 在当前目录创建`.env`文件，并填入`MODEL_NAME`,`MODEL_API`,`MODEL_BASE_URL`。
 - 把你要提取的小说或文本，放到当前目录，在`main.py`中修改`path`。
 
-- 运行`main.py`，`python main.py`
+- 运行`main.py`进行微调数据准备，`python main.py`
+- 执行`Qwen2.5_7b_Lora微调.ipynb`文件，进行模型微调。
 
 结果如下所示：
 
