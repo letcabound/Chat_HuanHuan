@@ -13,7 +13,8 @@ class DataProcessor:
         self._path = org_path # 待处理文件路径
         if not goal_path:
             file_name = os.path.basename(org_path).split(".")[0]
-            self.file_save_path = f"./{file_name}_etl.jsonl"
+            file_dir_path = os.path.dirname(org_path)
+            self.file_save_path = os.path.join(file_dir_path, f"{file_name}_etl.jsonl")
 
     def process(self):
         file_path = self._path

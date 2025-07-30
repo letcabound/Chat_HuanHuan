@@ -12,7 +12,7 @@ from tqdm import tqdm
 def main(file_path: str, chunk_size: int = 300, extracted_succeed: bool = False, etl_succeed: bool = False):
 
     file_name = os.path.basename(file_path).split('.')[0]
-    jsonl_save_path = f'./{file_name}.jsonl'
+    jsonl_save_path = f'./data/output/{file_name}.jsonl'
 
     if not extracted_succeed:
         docs = ReadFiles(file_path).get_content(chunk_size=chunk_size, cover_content=0)
@@ -32,15 +32,16 @@ def main(file_path: str, chunk_size: int = 300, extracted_succeed: bool = False,
                 print(f"第{i}个文本块处理过程出错，错误信息:{e}")
                 print(f"模型返回的信息为：{response_model}")
 
-
     if not etl_succeed:
         processor = DataProcessor(jsonl_save_path)
         processor.process()
 
 
 if __name__ == '__main__':
-    # file_path = './甄嬛传.txt'
-    # file_path = './甄嬛传_21.txt'
-    file_path = r"C:\Users\YY\Desktop\报错的句子.jsonl"
-    main(file_path, extracted_succeed=True, etl_succeed=False)
+    # file_path = './data/甄嬛传.txt'
+    file_path = './data/甄嬛传_21.txt'
+    main(file_path,
+         extracted_succeed=True, # 是否完成了对话抽取
+         etl_succeed=False # 是否完成了对话抽取后的etl逻辑
+         )
 
